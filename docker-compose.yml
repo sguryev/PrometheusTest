@@ -1,0 +1,39 @@
+﻿version: '3.7'
+
+# Set up all services
+services:
+  # Prometheus test console app
+  prometheus-test:
+    ## Get the image to use and set the container name
+    image: prometheus-test:latest
+    container_name: prometheus-test
+
+    # State a dependancy on Prometheus working
+    depends_on:
+      - 'prometheus_image'
+
+    # Location of the Dockerfile
+    build:
+      context: ./PrometheusTest
+      dockerfile: Dockerfile
+
+    # Configure a link to Prometheus
+    links:
+      - 'prometheus_image'
+
+    # The Application needs a connection string for Redis, this just needs to be the Redis Service name as defined below
+    # Pass it in as an Environmental Variable
+    environment:
+      - RedisConnection=prometheus_image
+
+  # The Prometheus Service, this label is required for the "Links" and Connection string
+  prometheus_image:
+    # Pull the image from Docker Hub
+    image: prom/prometheus
+
+    # Give the container a name (any name you want)
+    container_name: prometheus
+
+    # Expose Prometheus ports
+    ports:
+      - '9090:9090'
