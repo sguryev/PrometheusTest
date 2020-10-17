@@ -1,3 +1,5 @@
+# https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/building-net-docker-images?view=aspnetcore-3.1
+
 # Build build image
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 WORKDIR /app
@@ -14,5 +16,5 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 as runtime-env
 WORKDIR /app
 COPY --from=build-env /app/out .
-EXPOSE 80
+
 ENTRYPOINT ["dotnet", "PrometheusTestWeb.dll"]

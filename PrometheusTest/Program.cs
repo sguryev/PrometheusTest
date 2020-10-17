@@ -9,6 +9,7 @@
         private static readonly Counter TickTock =
             Metrics.CreateCounter("sampleapp_ticks_total", "Just keeps on ticking...");
         
+        // https://github.com/prometheus-net/prometheus-net#quick-start
         static async Task Main(string[] args)
         {
             Console.WriteLine("Starting Prometheus metrics.");

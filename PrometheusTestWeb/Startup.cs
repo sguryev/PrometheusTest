@@ -46,12 +46,11 @@ namespace PrometheusTestWeb
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseHttpMetrics();
 
             app.UseAuthorization();
             
-            // https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/building-net-docker-images?view=aspnetcore-3.1
             // https://medium.com/@sddkal/creating-a-simple-dockerized-net-core-api-with-prometheus-grafana-monitoring-275da0878412
-            app.UseMetricServer();
             app.Use((context, next) =>
             {
                 // Http Context
@@ -65,8 +64,13 @@ namespace PrometheusTestWeb
                 counter.WithLabels(context.Request.Method, context.Request.Path).Inc();
                 return next();
             });
-
-            app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
+            
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                // https://github.com/prometheus-net/prometheus-net#aspnet-core-exporter-middleware
+                endpoints.MapMetrics();
+            });
         }
     }
 }

@@ -14,5 +14,5 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/core/runtime:3.1 as runtime-env
 WORKDIR /app
 COPY --from=build-env /app/out .
-EXPOSE 9090
+
 ENTRYPOINT ["dotnet", "PrometheusTest.dll"]
