@@ -49,8 +49,9 @@ namespace PrometheusTestWeb
 
             app.UseAuthorization();
             
+            // https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/building-net-docker-images?view=aspnetcore-3.1
+            // https://medium.com/@sddkal/creating-a-simple-dockerized-net-core-api-with-prometheus-grafana-monitoring-275da0878412
             app.UseMetricServer();
-            
             app.Use((context, next) =>
             {
                 // Http Context
